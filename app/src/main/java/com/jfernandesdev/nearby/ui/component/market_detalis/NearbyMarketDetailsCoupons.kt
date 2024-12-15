@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jfernandesdev.nearby.R
+import com.jfernandesdev.nearby.ui.theme.Gray400
 import com.jfernandesdev.nearby.ui.theme.Gray500
 import com.jfernandesdev.nearby.ui.theme.GreenBase
 import com.jfernandesdev.nearby.ui.theme.GreenExtraLight
@@ -30,7 +31,7 @@ fun NearbyMarketDetailsCoupons(modifier: Modifier = Modifier, coupons: List<Stri
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(text="Utilize esse cupom", style = Typography.labelMedium, color = Gray500)
+        Text(text="Utilize esse cupom", style = Typography.headlineSmall, color = Gray400)
 
         coupons.forEach{ coupon ->
             Row(
