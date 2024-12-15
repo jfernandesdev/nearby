@@ -25,7 +25,7 @@ object NearbyRemoteDataSource {
     }
 
     // Busca de locais (com base em uma categoria)
-    suspend fun getMarket(categoryId: String): Result<List<Market>> = try {
+    suspend fun getMarkets(categoryId: String): Result<List<Market>> = try {
         val markets =
             httpClientAndroid.get("$BASE_URL/markets/category/${categoryId}").body<List<Market>>()
 
