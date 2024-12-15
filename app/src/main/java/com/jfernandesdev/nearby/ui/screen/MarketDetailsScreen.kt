@@ -31,24 +31,29 @@ import com.jfernandesdev.nearby.data.model.mock.mockMarkets
 import com.jfernandesdev.nearby.ui.component.button.NearbyButton
 import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsCoupons
 import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsInfos
-import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsRules
 import com.jfernandesdev.nearby.ui.theme.GreenExtraLight
 import com.jfernandesdev.nearby.ui.theme.Typography
 
 @Composable
 fun MarketDetailsScreen(
     modifier: Modifier = Modifier,
-    market: Market
+    market: Market,
+    onNavigateBack: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize().background(GreenExtraLight)) {
         AsyncImage(
-            model = market.cover,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.3f),
+            model = market.cover,
             contentDescription = "Imagem do Local",
             contentScale = ContentScale.Crop
+        )
 
+        NearbyButton(
+            modifier = Modifier.align(Alignment.TopStart).padding(vertical = 42.dp, horizontal = 24.dp),
+            iconRes = R.drawable.ic_arrow_left,
+            onClick = onNavigateBack
         )
 
         Box(
@@ -79,12 +84,12 @@ fun MarketDetailsScreen(
                     NearbyMarketDetailsInfos(market = market)
                     HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp))
 
-                    if (market.rules.isNotEmpty()) {
-                        NearbyMarketDetailsRules(rules = market.rules)
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
-                        )
-                    }
+//                    if (market.rules.isNotEmpty()) {
+//                        NearbyMarketDetailsRules(rules = market.rules)
+//                        HorizontalDivider(
+//                            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+//                        )
+//                    }
 
                     NearbyMarketDetailsCoupons(coupons = listOf("ABC1234"))
                 }
@@ -111,6 +116,7 @@ fun MarketDetailsScreen(
                 }
             }
         }
+
     }
 }
 
@@ -118,6 +124,7 @@ fun MarketDetailsScreen(
 @Composable
 private fun MarketDetailsScreenPreview() {
     MarketDetailsScreen(
-        market = mockMarkets.first()
+        market = mockMarkets.first(),
+        onNavigateBack = {}
     )
 }

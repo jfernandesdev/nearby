@@ -109,7 +109,7 @@ private fun NearbyMarketCardPreview() {
             name = "Sabor Grill",
             description = "Churrascaria com cortes nobres e buffet variado. Experiência completa para os amantes de carne.",
             coupons = 10,
-            rules = emptyList(),
+//            rules = emptyList(),
             latitude = -24.8274406,
             longitude = -53.9273784,
             address = "Av. Brasil, 4057 - Centro",
