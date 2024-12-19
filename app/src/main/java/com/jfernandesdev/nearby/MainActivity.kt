@@ -14,14 +14,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.jfernandesdev.nearby.data.model.Market
-import com.jfernandesdev.nearby.ui.screen.HomeScreen
-import com.jfernandesdev.nearby.ui.screen.HomeViewModel
-import com.jfernandesdev.nearby.ui.screen.MarketDetailsScreen
-import com.jfernandesdev.nearby.ui.screen.SplashScreen
-import com.jfernandesdev.nearby.ui.screen.WelcomeScreen
-import com.jfernandesdev.nearby.ui.screen.route.Home
-import com.jfernandesdev.nearby.ui.screen.route.Splash
-import com.jfernandesdev.nearby.ui.screen.route.Welcome
+import com.jfernandesdev.nearby.ui.screen.home.HomeScreen
+import com.jfernandesdev.nearby.ui.screen.home.HomeViewModel
+import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsScreen
+import com.jfernandesdev.nearby.ui.screen.splash.SplashScreen
+import com.jfernandesdev.nearby.ui.screen.welcome.WelcomeScreen
+import com.jfernandesdev.nearby.ui.route.Home
+import com.jfernandesdev.nearby.ui.route.Splash
+import com.jfernandesdev.nearby.ui.route.Welcome
 import com.jfernandesdev.nearby.ui.theme.NearbyTheme
 
 class MainActivity : ComponentActivity() {

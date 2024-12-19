@@ -1,4 +1,4 @@
-package com.jfernandesdev.nearby.ui.screen
+package com.jfernandesdev.nearby.ui.screen.market_details
 
 import com.jfernandesdev.nearby.data.model.Rule
 

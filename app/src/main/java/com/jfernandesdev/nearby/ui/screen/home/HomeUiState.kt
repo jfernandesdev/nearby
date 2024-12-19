@@ -1,4 +1,4 @@
-package com.jfernandesdev.nearby.ui.screen
+package com.jfernandesdev.nearby.ui.screen.home
 
 import com.google.android.gms.maps.model.LatLng
 import com.jfernandesdev.nearby.data.model.Category
