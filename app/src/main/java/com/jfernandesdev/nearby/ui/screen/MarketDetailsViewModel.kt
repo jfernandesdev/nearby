@@ -15,8 +15,8 @@ class MarketDetailsViewModel : ViewModel() {
 
     fun onEvent(event: MarketDetailsUiEvent) {
         when (event) {
-            is MarketDetailsUiEvent.OnFetchCoupon -> fetchCoupon(event.qrCodeContent)
-            is MarketDetailsUiEvent.OnFetchRules -> marketRules(event.marketId)
+            is MarketDetailsUiEvent.OnFetchCoupon -> fetchCoupon(qrCodeContent = event.qrCodeContent)
+            is MarketDetailsUiEvent.OnFetchRules -> marketRules(marketId = event.marketId)
             MarketDetailsUiEvent.OnResetCoupon -> resetCoupon()
         }
     }
