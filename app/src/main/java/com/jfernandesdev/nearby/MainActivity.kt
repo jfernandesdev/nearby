@@ -20,8 +20,12 @@ import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsScreen
 import com.jfernandesdev.nearby.ui.screen.splash.SplashScreen
 import com.jfernandesdev.nearby.ui.screen.welcome.WelcomeScreen
 import com.jfernandesdev.nearby.ui.route.Home
+import com.jfernandesdev.nearby.ui.route.QrCodeScanner
 import com.jfernandesdev.nearby.ui.route.Splash
 import com.jfernandesdev.nearby.ui.route.Welcome
+import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsUiEvent
+import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsViewModel
+import com.jfernandesdev.nearby.ui.screen.qrcode_scanner.QrCodeScannerScreen
 import com.jfernandesdev.nearby.ui.theme.NearbyTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +38,9 @@ class MainActivity : ComponentActivity() {
 
                 val homeViewModel by viewModels<HomeViewModel>()
                 val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
+                val marketDetailsViewModel by viewModels<MarketDetailsViewModel>()
+                val marketDetailsUiState by marketDetailsViewModel.uiState.collectAsStateWithLifecycle()
 
                 NavHost(
                     navController = navController,
@@ -67,10 +74,27 @@ class MainActivity : ComponentActivity() {
 
                         MarketDetailsScreen(
                             market = selectedMarket,
+                            uiState = marketDetailsUiState,
+                            onEvent = marketDetailsViewModel::onEvent,
                             onNavigateBack = {
                                 navController.popBackStack()
+                            },
+                            onNavigateToQrCodeScanner = {
+                                navController.navigate(QrCodeScanner)
                             }
                         )
+                    }
+                    composable<QrCodeScanner> {
+                        QrCodeScannerScreen(onCompleteScan = { qrCodeContent ->
+                            if (qrCodeContent.isNotEmpty()) {
+                                marketDetailsViewModel.onEvent(
+                                    MarketDetailsUiEvent.OnFetchCoupon(
+                                        qrCodeContent = qrCodeContent
+                                    )
+                                )
+                            }
+                            navController.popBackStack()
+                        })
                     }
                 }
             }
