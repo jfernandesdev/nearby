@@ -13,3 +13,6 @@ data object Home
 
 @Serializable
 data object QrCodeScanner
+
+@Serializable
+data object Location

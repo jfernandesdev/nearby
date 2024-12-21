@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,16 +25,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.jfernandesdev.nearby.R
+import com.jfernandesdev.nearby.data.model.Category
 import com.jfernandesdev.nearby.data.model.Market
+import com.jfernandesdev.nearby.data.model.mock.mockCategories
 import com.jfernandesdev.nearby.data.model.mock.mockMarkets
 import com.jfernandesdev.nearby.ui.component.button.NearbyButton
+import com.jfernandesdev.nearby.ui.component.category.CategoryFilterChipView.Companion.fromDescription
 import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsCoupons
 import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsInfos
 import com.jfernandesdev.nearby.ui.component.market_detalis.NearbyMarketDetailsRules
+import com.jfernandesdev.nearby.ui.theme.GreenBase
 import com.jfernandesdev.nearby.ui.theme.GreenExtraLight
 import com.jfernandesdev.nearby.ui.theme.Typography
 
@@ -42,6 +49,8 @@ fun MarketDetailsScreen(
     uiState: MarketDetailsUiState,
     onEvent: (MarketDetailsUiEvent) -> Unit,
     market: Market,
+    category: Category? = null,
+    onNavigateToLocation: () -> Unit,
     onNavigateToQrCodeScanner: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
@@ -83,7 +92,24 @@ fun MarketDetailsScreen(
                     .padding(32.dp)
             ) {
                 Column {
-                    Text(text = market.name, style = Typography.headlineLarge)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = market.name, style = Typography.headlineLarge)
+
+                        category?.name?.let { categoryName ->
+                            fromDescription(description = categoryName)?.let { icon ->
+                                Icon(
+                                    modifier = Modifier.size(24.dp),
+                                    painter = painterResource(icon.icon),
+                                    tint = GreenBase,
+                                    contentDescription = "Ícone Categoria"
+                                )
+                            }
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(text = market.description, style = Typography.bodyLarge)
                 }
@@ -119,7 +145,7 @@ fun MarketDetailsScreen(
                     NearbyButton(
                         modifier = Modifier.padding(top = 24.dp),
                         iconRes = R.drawable.ic_map_pin,
-                        onClick = {}
+                        onClick = onNavigateToLocation
                     )
 
                     NearbyButton(
@@ -142,9 +168,11 @@ fun MarketDetailsScreen(
 private fun MarketDetailsScreenPreview() {
     MarketDetailsScreen(
         market = mockMarkets.first(),
+        category = mockCategories.first(),
         uiState = MarketDetailsUiState(),
         onEvent = {},
         onNavigateToQrCodeScanner = {},
+        onNavigateToLocation = { },
         onNavigateBack = {}
     )
 }

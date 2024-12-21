@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -14,18 +16,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.jfernandesdev.nearby.data.model.Market
-import com.jfernandesdev.nearby.ui.screen.home.HomeScreen
-import com.jfernandesdev.nearby.ui.screen.home.HomeViewModel
-import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsScreen
-import com.jfernandesdev.nearby.ui.screen.splash.SplashScreen
-import com.jfernandesdev.nearby.ui.screen.welcome.WelcomeScreen
 import com.jfernandesdev.nearby.ui.route.Home
+import com.jfernandesdev.nearby.ui.route.Location
 import com.jfernandesdev.nearby.ui.route.QrCodeScanner
 import com.jfernandesdev.nearby.ui.route.Splash
 import com.jfernandesdev.nearby.ui.route.Welcome
+import com.jfernandesdev.nearby.ui.screen.home.HomeScreen
+import com.jfernandesdev.nearby.ui.screen.home.HomeViewModel
+import com.jfernandesdev.nearby.ui.screen.location.LocationScreen
+import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsScreen
 import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsUiEvent
 import com.jfernandesdev.nearby.ui.screen.market_details.MarketDetailsViewModel
 import com.jfernandesdev.nearby.ui.screen.qrcode_scanner.QrCodeScannerScreen
+import com.jfernandesdev.nearby.ui.screen.splash.SplashScreen
+import com.jfernandesdev.nearby.ui.screen.welcome.WelcomeScreen
 import com.jfernandesdev.nearby.ui.theme.NearbyTheme
 
 class MainActivity : ComponentActivity() {
@@ -72,8 +76,24 @@ class MainActivity : ComponentActivity() {
                     composable<Market> {
                         val selectedMarket = it.toRoute<Market>()
 
+                        val selectedCategory by remember {
+                            mutableStateOf(
+                                homeUiState.categories?.firstOrNull { category ->
+                                    category.id == selectedMarket.categoryId
+                                }
+                            )
+                        }
+
+                        marketDetailsViewModel.onEvent(
+                            MarketDetailsUiEvent.OnMarketSelected(
+                                market = selectedMarket,
+                                category = selectedCategory
+                            )
+                        )
+
                         MarketDetailsScreen(
                             market = selectedMarket,
+                            category = selectedCategory,
                             uiState = marketDetailsUiState,
                             onEvent = marketDetailsViewModel::onEvent,
                             onNavigateBack = {
@@ -81,6 +101,9 @@ class MainActivity : ComponentActivity() {
                             },
                             onNavigateToQrCodeScanner = {
                                 navController.navigate(QrCodeScanner)
+                            },
+                            onNavigateToLocation = {
+                                navController.navigate(Location)
                             }
                         )
                     }
@@ -95,6 +118,20 @@ class MainActivity : ComponentActivity() {
                             }
                             navController.popBackStack()
                         })
+                    }
+                    composable<Location> {
+                        val market = marketDetailsUiState.market
+                        val category = marketDetailsUiState.category
+
+                        if (market != null && category != null) {
+                            LocationScreen(
+                                market = market,
+                                category = category,
+                                onNavigateBack = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
                     }
                 }
             }

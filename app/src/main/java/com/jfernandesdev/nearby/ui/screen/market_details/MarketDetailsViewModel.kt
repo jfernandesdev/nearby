@@ -15,6 +15,14 @@ class MarketDetailsViewModel : ViewModel() {
 
     fun onEvent(event: MarketDetailsUiEvent) {
         when (event) {
+            is MarketDetailsUiEvent.OnMarketSelected -> {
+                _uiState.update { currentUiState ->
+                    currentUiState.copy(
+                        market = event.market,
+                        category = event.category
+                    )
+                }
+            }
             is MarketDetailsUiEvent.OnFetchCoupon -> fetchCoupon(qrCodeContent = event.qrCodeContent)
             is MarketDetailsUiEvent.OnFetchRules -> marketRules(marketId = event.marketId)
             MarketDetailsUiEvent.OnResetCoupon -> resetCoupon()

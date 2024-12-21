@@ -5,15 +5,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import com.jfernandesdev.nearby.MainActivity
@@ -75,14 +70,5 @@ fun QrCodeScannerScreen(modifier: Modifier = Modifier, onCompleteScan: (String) 
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Posicione a câmera no QRCode para realizar a leitura.",
-            fontSize = 18.sp,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+        modifier = modifier.fillMaxSize()) { }
 }
